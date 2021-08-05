@@ -4,10 +4,10 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import PropTypes from 'prop-types';
 
 export default class Order extends React.Component {
-    static propTypes = {
-        burgers: PropTypes.object,
-        order: PropTypes.object,
-        deleteFromOrder: PropTypes.func
+    constructor(props) {
+        super(props);
+
+        this.renderOrder = this.renderOrder.bind(this);
     }
 
     renderOrder = (key) => {
@@ -86,4 +86,10 @@ export default class Order extends React.Component {
             </div>
         );
     }
+}
+
+Order.propTypes = {
+    burgers: PropTypes.object,
+    order: PropTypes.object,
+    deleteFromOrder: PropTypes.func
 }

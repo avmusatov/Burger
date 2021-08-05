@@ -5,17 +5,15 @@ import PropTypes from 'prop-types';
 import firebase from 'firebase/app';
 
 export default class MenuAdmin extends React.Component {
-    static propTypes = {
-        burgers: PropTypes.object,
-        updateBurger: PropTypes.func,
-        deleteBurger: PropTypes.func,
-        loadSampleBurgers: PropTypes.func,
-        handleLogout: PropTypes.func
-    }
+    constructor(props) {
+        super(props);
 
-    state = {
-        photo: '',
-        user: ''
+        this.state = {
+            photo: '',
+            user: ''
+        }
+
+        this.authHandler = this.authHandler.bind(this);
     }
 
     componentDidMount() {
@@ -24,7 +22,7 @@ export default class MenuAdmin extends React.Component {
         });
     }
 
-    authHandler = async (authData) => {
+    async authHandler(authData) {
         const { email, photoURL } = authData.user;
         this.setState({ user: email, photo: photoURL });
     }
@@ -60,4 +58,12 @@ export default class MenuAdmin extends React.Component {
             </div>
         );
     }
+}
+
+MenuAdmin.propTypes = {
+    burgers: PropTypes.object,
+    updateBurger: PropTypes.func,
+    deleteBurger: PropTypes.func,
+    loadSampleBurgers: PropTypes.func,
+    handleLogout: PropTypes.func
 }

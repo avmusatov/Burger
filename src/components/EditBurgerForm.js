@@ -2,20 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default class EditBurgerForm extends React.Component {
-    static propTypes = {
-        burger: PropTypes.shape({
-            image: PropTypes.string,
-            name: PropTypes.string,
-            price: PropTypes.number,
-            desc: PropTypes.string,
-            status: PropTypes.string
-        }),
-        index: PropTypes.string,
-        updateBurger: PropTypes.func,
-        deleteBurger: PropTypes.func
+    constructor(props) {
+        super(props);
+
+        this.handleChange = this.handleChange.bind(this);
     }
 
-    handleChange = (event) => {
+    handleChange(event) {
         const updatedBurger = {
             ...this.props.burger,
             [event.currentTarget.name]:
@@ -68,4 +61,17 @@ export default class EditBurgerForm extends React.Component {
             </div>
         );
     }
+}
+
+EditBurgerForm.propTypes = {
+    burger: PropTypes.shape({
+        image: PropTypes.string,
+        name: PropTypes.string,
+        price: PropTypes.number,
+        desc: PropTypes.string,
+        status: PropTypes.string
+    }),
+    index: PropTypes.string,
+    updateBurger: PropTypes.func,
+    deleteBurger: PropTypes.func
 }

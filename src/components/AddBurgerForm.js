@@ -2,17 +2,19 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default class AddBurgerForm extends React.Component {
-    static propTypes = {
-        addBurger: PropTypes.func
+    constructor(props) {
+        super(props);
+
+        this.nameRef = React.createRef();
+        this.priceRef = React.createRef();
+        this.statusRef = React.createRef();
+        this.descRef = React.createRef();
+        this.imageRef = React.createRef();
+
+        this.createBurger = this.createBurger.bind(this);
     }
 
-    nameRef = React.createRef();
-    priceRef = React.createRef();
-    statusRef = React.createRef();
-    descRef = React.createRef();
-    imageRef = React.createRef();
-
-    createBurger = (event) => {
+    createBurger(event) {
         event.preventDefault();
         const burger = {
             name: this.nameRef.current.value,
@@ -58,4 +60,8 @@ export default class AddBurgerForm extends React.Component {
             </form>
         );
     }
+}
+
+AddBurgerForm.propTypes = {
+    addBurger: PropTypes.func
 }

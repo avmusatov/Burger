@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export default class Shipment extends React.Component {
-    static propTypes = {
-        total: PropTypes.number
+    constructor(props) {
+        super(props);
     }
 
     render() {
@@ -14,6 +14,7 @@ export default class Shipment extends React.Component {
         ) : (
             <span>{shipping} ₽</span>
         );
+
         return (
             <div className="total" >
                 <div className="total_wrap">
@@ -24,10 +25,14 @@ export default class Shipment extends React.Component {
                         </div>
                     </div>
                     <div className="total_wrap-final">
-                        Итого: {total} ₽
+                        Итого: {total + shipping} ₽
                     </div>
                 </div>
             </div>
         );
     }
+}
+
+Shipment.propTypes = {
+    total: PropTypes.number
 }

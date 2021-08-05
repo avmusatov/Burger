@@ -10,31 +10,64 @@ import SignIn from './auth/SignIn.js';
 import firebase from 'firebase/app';
 
 export default class App extends React.Component {
-    static propTypes = {
-        match: PropTypes.object
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            burgers: {},
+            order: {}
+        }
+
+        this.addBurger = this.addBurger.bind(this);
+        this.loadSampleBurgers = this.loadSampleBurgers.bind(this);
+        this.addToOrder = this.addToOrder.bind(this);
+        this.addBurger = this.addBurger.bind(this);
+        this.updateBurger = this.updateBurger.bind(this);
+        this.deleteBurger = this.deleteBurger.bind(this);
+        this.deleteFromOrder = this.deleteFromOrder.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
     }
 
-    state = {
-        burgers: {},
-        order: {}
-    }
-
-    addBurger = (burger) => {
+    addBurger(burger) {
         const burgers = { ...this.state.burgers };
         burgers[`burger${Date.now()}`] = burger;
         this.setState({ burgers: burgers });
     }
 
-    loadSampleBurgers = () => {
+    loadSampleBurgers() {
         this.setState({ burgers: sampleBurgers });
     }
 
-    addToOrder = (key) => {
+    addToOrder(key) {
         const order = { ...this.state.order };
         order[key] = order[key] + 1 || 1;
         this.setState({ order: order });
     }
 
+    updateBurger(key, updatedBurger) {
+        const burgers = { ...this.state.burgers };
+        burgers[key] = updatedBurger;
+        this.setState({ burgers: burgers });
+    }
+
+    deleteBurger(key) {
+        const burgers = { ...this.state.burgers };
+        burgers[key] = null;
+        this.setState({ burgers: burgers });
+    }
+
+    deleteFromOrder(key) {
+        const order = { ...this.state.order };
+        delete order[key];
+        this.setState({ order: order });
+    }
+
+    async handleLogout() {
+        await firebase.auth().signOut();
+        window.location.reload();
+    }
+
+    //lifecycle methods
     componentDidMount() {
         const { params } = this.props.match;
         const localStorageRef = localStorage.getItem(params.restaurantId);
@@ -49,36 +82,13 @@ export default class App extends React.Component {
         });
     }
 
-    componentWillUnmount() {
-        base.removeBinding(this.ref);
-    }
-
     componentDidUpdate() {
         const { params } = this.props.match;
         localStorage.setItem(params.restaurantId, JSON.stringify(this.state.order));
     }
 
-    updateBurger = (key, updatedBurger) => {
-        const burgers = { ...this.state.burgers };
-        burgers[key] = updatedBurger;
-        this.setState({ burgers: burgers });
-    }
-
-    deleteBurger = (key) => {
-        const burgers = { ...this.state.burgers };
-        burgers[key] = null;
-        this.setState({ burgers: burgers });
-    }
-
-    deleteFromOrder = (key) => {
-        const order = { ...this.state.order };
-        delete order[key];
-        this.setState({ order: order });
-    }
-
-    handleLogout = async () => {
-        await firebase.auth().signOut();
-        window.location.reload();
+    componentWillUnmount() {
+        base.removeBinding(this.ref);
     }
 
     render() {
@@ -115,4 +125,8 @@ export default class App extends React.Component {
             </SignIn>
         );
     }
+}
+
+App.propTypes = {
+    match: PropTypes.object
 }

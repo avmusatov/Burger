@@ -4,14 +4,14 @@ import Landing from './Landing';
 import App from './App';
 import NotFound from './NotFound';
 
-const Router = () => (
-    <BrowserRouter>
-        <Switch>
-            <Route exact path='/' component={Landing}/>
-            <Route exact path='/restaurant/:restaurantId' component={App}/>
-            <Route component={NotFound}/>
-        </Switch>
-    </BrowserRouter>
-);
-
-export default Router;
+export default function Router() {
+    return (
+        <BrowserRouter>
+            <Switch>
+                <Route exact path='/' component={Landing} />
+                <Route exact path='/restaurant/:restaurantId' component={App} />
+                <Route component={NotFound} />
+            </Switch>
+        </BrowserRouter>
+    );
+}

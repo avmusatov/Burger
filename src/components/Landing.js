@@ -2,24 +2,24 @@ import React, { useState } from 'react';
 import restaurants from '../sample-restaurants';
 import PropTypes from 'prop-types';
 
-const Landing = (props) => {
+export default function Landing({ history }) {
     const [display, toggleDisplay] = useState(false);
     const [title, setTitle] = useState('');
     const [url, setUrl] = useState('');
 
-    const displayList = () => {
+    function displayList() {
         toggleDisplay(!display);
     };
 
-    const getTitle = (restaurant) => {
+    function getTitle(restaurant) {
         const { title, url } = restaurant;
         toggleDisplay(false);
         setTitle(title);
         setUrl(url);
     };
 
-    const goToRestaurant = () => {
-        props.history.push(`/restaurant/${url}`);
+    function goToRestaurant() {
+        history.push(`/restaurant/${url}`);
     };
 
     return (
@@ -49,5 +49,3 @@ const Landing = (props) => {
 Landing.propTypes = {
     history: PropTypes.object,
 };
-
-export default Landing;
